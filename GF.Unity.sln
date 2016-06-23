@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GF.Unity.Common", "GF.Unity
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GF.Unity.Sqlite", "GF.Unity.Sqlite\GF.Unity.Sqlite.csproj", "{47B5D60F-BE8D-4CCF-8125-800B991A6502}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{AAE7AEF3-A990-4FC3-92F9-4674DD40EF51}"
+EndProject
+Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "GF.Unity.Common", "NuGet\GF.Unity.Common\GF.Unity.Common.nuproj", "{5D96F951-8832-4E76-91E3-78AEA6A4BB07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +25,15 @@ Global
 		{47B5D60F-BE8D-4CCF-8125-800B991A6502}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47B5D60F-BE8D-4CCF-8125-800B991A6502}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47B5D60F-BE8D-4CCF-8125-800B991A6502}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D96F951-8832-4E76-91E3-78AEA6A4BB07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D96F951-8832-4E76-91E3-78AEA6A4BB07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D96F951-8832-4E76-91E3-78AEA6A4BB07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D96F951-8832-4E76-91E3-78AEA6A4BB07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5D96F951-8832-4E76-91E3-78AEA6A4BB07} = {AAE7AEF3-A990-4FC3-92F9-4674DD40EF51}
 	EndGlobalSection
 EndGlobal

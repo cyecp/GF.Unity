@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>5d96f951-8832-4e76-91e3-78aea6a4bb07</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
+  </PropertyGroup>
+  <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
+  <PropertyGroup Label="Configuration">
+    <Id>GF.Unity.Common</Id>
+    <Version>1.00.000</Version>
+    <Title>GF.Unity.Common</Title>
+    <Authors>lion.lee</Authors>
+    <Owners>Cragon</Owners>
+    <Summary>GF.Unity.Common</Summary>
+    <Description>GF.Unity.Common</Description>
+    <ReleaseNotes>
+    </ReleaseNotes>
+    <ProjectUrl>https://github.com/CragonGame/GF.Unity</ProjectUrl>
+    <LicenseUrl>https://github.com/CragonGame/GF.Unity/blob/master/LICENSE</LicenseUrl>
+    <Copyright>Copyright © Cragon</Copyright>
+    <Tags>GF.Unity.Common</Tags>
+    <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GF.Unity.Common\GF.Unity.Common.csproj" />
+    <ProjectReference Include="..\..\GF.Unity.Sqlite\GF.Unity.Sqlite.csproj" />
+  </ItemGroup>
+  <Import Project="$(NuProjPath)\NuProj.targets" />
+</Project>
