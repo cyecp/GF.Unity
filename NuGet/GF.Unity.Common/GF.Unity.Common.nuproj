@@ -19,9 +19,9 @@
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
     <Id>GF.Unity.Common</Id>
-    <Version>1.00.000</Version>
+    <Version>1.00.001</Version>
     <Title>GF.Unity.Common</Title>
-    <Authors>lion.lee</Authors>
+    <Authors>Cragon</Authors>
     <Owners>Cragon</Owners>
     <Summary>GF.Unity.Common</Summary>
     <Description>GF.Unity.Common</Description>
