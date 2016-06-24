@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using SuperSocket.ProtoBase;
-using GF.Common;
+using GF.Unity.Common;
 
 enum eSocketEventType : byte
 {

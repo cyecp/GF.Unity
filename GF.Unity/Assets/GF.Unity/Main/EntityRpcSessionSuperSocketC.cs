@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using GF.Common;
+using GF.Unity.Common;
 
 public class EntityRpcSessionSuperSocketC : IRpcSession
 {

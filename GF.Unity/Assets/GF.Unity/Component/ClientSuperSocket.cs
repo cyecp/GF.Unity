@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GF.Common;
+using GF.Unity.Common;
 
 public class ClientSuperSocket<TDef> : Component<TDef> where TDef : DefSuperSocket, new()
 {

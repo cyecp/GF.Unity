@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using GF.Common;
+using GF.Unity.Common;
 
 //public delegate void OnSocketReceive(byte[] data, int len);
 //public delegate void OnSocketConnected(object client, EventArgs args);

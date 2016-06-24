@@ -54,7 +54,6 @@ artifacts/
 *.pdb
 *.pgc
 *.pgd
-*.rsp
 *.sbr
 *.tlb
 *.tli
@@ -250,3 +249,11 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# Unity3D
+/GF.Unity/Library/
+/GF.Unity/Temp/
+/GF.Unity/GF.Unity.CSharp.Editor.csproj
+/GF.Unity/GF.Unity.CSharp.Plugins.csproj
+/GF.Unity/GF.Unity.CSharp.csproj
+/GF.Unity/GF.Unity.sln

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using GF.Common;
+using GF.Unity.Common;
 
 public class EtSampleApp : EntityDef
 {

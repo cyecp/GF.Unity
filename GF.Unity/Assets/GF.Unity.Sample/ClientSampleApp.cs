@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using GF.Common;
+using GF.Unity.Common;
 
 public class ClientSampleApp<TDef> : Component<TDef> where TDef : DefSampleApp, new()
 {

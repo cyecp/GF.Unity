@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using GF.Common;
+using GF.Unity.Common;
 
 public class EcPing
 {

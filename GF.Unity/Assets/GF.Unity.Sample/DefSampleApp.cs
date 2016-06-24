@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GF.Common;
+using GF.Unity.Common;
 
 public class DefSampleApp : ComponentDef
 {
