@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class EditorGfInitProjectInfo : EditorWindow
+public class GFEditorInitProjectInfo : EditorWindow
 {
     //-------------------------------------------------------------------------    
     string mComponyName;
@@ -76,7 +76,7 @@ public class EditorGfInitProjectInfo : EditorWindow
 
         try
         {
-            EditorGf.copyFile(mPatchInfoResouceDirectory, mPatchInfoTargetDirectory, mPatchInfoResouceDirectory);
+            GFEditor.copyFile(mPatchInfoResouceDirectory, mPatchInfoTargetDirectory, mPatchInfoResouceDirectory);
         }
         catch (Exception e)
         {
@@ -86,7 +86,7 @@ public class EditorGfInitProjectInfo : EditorWindow
 
         PlayerSettings.companyName = mComponyName;
         PlayerSettings.productName = mProductName;
-        EditorGf.changeBundleData(mBundleVersion, true);
-        EditorGf.changeDataData(mDataVersion, true);
+        GFEditor.changeBundleData(mBundleVersion, true);
+        GFEditor.changeDataData(mDataVersion, true);
     }
 }

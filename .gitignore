@@ -251,9 +251,9 @@ paket-files/
 *.sln.iml
 
 # Unity3D
-/GF.Unity/Library/
-/GF.Unity/Temp/
-/GF.Unity/GF.Unity.CSharp.Editor.csproj
-/GF.Unity/GF.Unity.CSharp.Plugins.csproj
-/GF.Unity/GF.Unity.CSharp.csproj
-/GF.Unity/GF.Unity.sln
+/GF.Unity.Client/Library/
+/GF.Unity.Client/Temp/
+/GF.Unity.Client/GF.Unity.Client.CSharp.Editor.csproj
+/GF.Unity.Client/GF.Unity.Client.CSharp.Plugins.csproj
+/GF.Unity.Client/GF.Unity.Client.CSharp.csproj
+/GF.Unity.Client/GF.Unity.Client.sln

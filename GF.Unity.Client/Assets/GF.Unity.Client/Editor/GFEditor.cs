@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 
-public class EditorGf : EditorWindow
+public class GFEditor : EditorWindow
 {
     //-------------------------------------------------------------------------
     static MD5 mMD5;
@@ -49,7 +49,7 @@ public class EditorGf : EditorWindow
 
 
     //-------------------------------------------------------------------------
-    [MenuItem("GF/AutoPatcher")]
+    [MenuItem("GF.Unity/AutoPatcher")]
     static void AutoPatcher()
     {
         _checkPath();
@@ -57,14 +57,14 @@ public class EditorGf : EditorWindow
 
         if (!Directory.Exists(mABTargetPath))
         {
-            EditorGfInitProjectInfo test = GetWindow<EditorGfInitProjectInfo>("初始化项目信息");
+            GFEditorInitProjectInfo test = GetWindow<GFEditorInitProjectInfo>("初始化项目信息");
 
             test.copyPatchInfo(mABTargetPath,
                 mAssetPath + mABPathInfoResourceDirectory);
             return;
         }
 
-        EditorGf dragon_pack = (EditorGf)EditorWindow.GetWindow(typeof(EditorGf));
+        GFEditor dragon_pack = (GFEditor)EditorWindow.GetWindow(typeof(GFEditor));
         _getCurrentTargetPath();
         _checkPatchData();
         mMD5 = new MD5CryptoServiceProvider();
