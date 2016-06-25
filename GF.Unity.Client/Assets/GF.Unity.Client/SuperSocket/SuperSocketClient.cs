@@ -32,7 +32,7 @@ public class SuperSocketClient : IPackageHandler<BufferedPackageInfo<ushort>>
 {
     //---------------------------------------------------------------------
     static readonly ushort HeadLength = 2;
-    TcpClientSession3 mSession;
+    TcpClientSession mSession;
     string mIp;
     int mPort;
     DefaultPipelineProcessor<BufferedPackageInfo<ushort>> mPipelineProcessor;
@@ -74,7 +74,7 @@ public class SuperSocketClient : IPackageHandler<BufferedPackageInfo<ushort>>
         mPort = port;
 
         EndPoint server_address = new IPEndPoint(IPAddress.Parse(mIp), mPort);
-        mSession = new TcpClientSession3(server_address);
+        mSession = new TcpClientSession(server_address);
         mSession.DataReceived += _onReceive;
         mSession.Connected += _onConnected;
         mSession.Closed += _onClosed;
@@ -90,22 +90,6 @@ public class SuperSocketClient : IPackageHandler<BufferedPackageInfo<ushort>>
         {
             mSession.update();
         }
-
-        //while (true)
-        //{
-        //    SocketRecvData recv_data;
-        //    recv_data.data = null;
-        //    recv_data.len = 0;
-        //    lock (mLockWorker)
-        //    {
-        //        if (mRecQueue.Count > 0) recv_data = mRecQueue.Dequeue();
-        //    }
-
-        //    if (recv_data.data == null) break;
-
-        //    var segment = new ArraySegment<byte>(recv_data.data, 0, recv_data.len);
-        //    mPipelineProcessor.Process(segment, new BufferState());
-        //}
 
         while (true)
         {
@@ -199,14 +183,7 @@ public class SuperSocketClient : IPackageHandler<BufferedPackageInfo<ushort>>
     //---------------------------------------------------------------------
     void _onReceive(byte[] data, int len)
     {
-        //lock (mLockWorker)
-        //{
-        //    SocketRecvData recv_data;
-        //    recv_data.data = data;
-        //    recv_data.len = len;
-        //    mRecQueue.Enqueue(recv_data);
-        //}
-
+        lock (mLockWorker)
         {
             SocketRecvData recv_data;
             recv_data.data = data;

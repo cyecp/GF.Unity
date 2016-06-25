@@ -9,9 +9,11 @@ public class EcSampleListener : IEcEngineListener
     {
         entity_mgr.regComponent<ClientSampleApp<DefSampleApp>>();
         entity_mgr.regComponent<ClientSampleAutoPatcher<DefSampleAutoPatcher>>();
+        entity_mgr.regComponent<ClientSampleNetwork<DefSampleNetwork>>();
 
         entity_mgr.regEntityDef<EtSampleApp>();
         entity_mgr.regEntityDef<EtSampleAutoPatcher>();
+        entity_mgr.regEntityDef<EtSampleNetwork>();
     }
 
     //-------------------------------------------------------------------------

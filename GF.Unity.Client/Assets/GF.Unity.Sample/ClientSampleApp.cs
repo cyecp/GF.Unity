@@ -17,6 +17,9 @@ public class ClientSampleApp<TDef> : Component<TDef> where TDef : DefSampleApp, 
 
         // AutoPatcher示例
         //EntityMgr.createEntity<EtSampleAutoPatcher>(null, Entity);
+
+        // Network示例
+        EntityMgr.createEntity<EtSampleNetwork>(null, Entity);
     }
 
     //-------------------------------------------------------------------------

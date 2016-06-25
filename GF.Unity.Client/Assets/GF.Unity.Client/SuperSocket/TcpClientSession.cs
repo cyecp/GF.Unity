@@ -10,19 +10,6 @@ public delegate void OnSocketConnected(object client, EventArgs args);
 public delegate void OnSocketClosed(object client, EventArgs args);
 public delegate void OnSocketError(object rec, SocketErrorEventArgs args);
 
-public class TcpStateObj
-{
-    public Socket socket;
-    public byte[] buffer;
-}
-
-public class DataEventArgs : EventArgs
-{
-    public byte[] Data { get; set; }
-    public int Offset { get; set; }
-    public int Length { get; set; }
-}
-
 public class SocketErrorEventArgs : EventArgs
 {
     public Exception Exception { get; private set; }
@@ -33,7 +20,7 @@ public class SocketErrorEventArgs : EventArgs
     }
 }
 
-public class TcpClientSession3 : IDisposable
+public class TcpClientSession : IDisposable
 {
     //-------------------------------------------------------------------------
     readonly int MAX_RECEIVE_LEN = 8192;
@@ -54,7 +41,7 @@ public class TcpClientSession3 : IDisposable
     public OnSocketError Error { get; set; }
 
     //-------------------------------------------------------------------------
-    public TcpClientSession3(EndPoint remote_endpoint)
+    public TcpClientSession(EndPoint remote_endpoint)
     {
         mRemoteEndPoint = remote_endpoint;
 
@@ -69,7 +56,7 @@ public class TcpClientSession3 : IDisposable
     }
 
     //-------------------------------------------------------------------------
-    ~TcpClientSession3()
+    ~TcpClientSession()
     {
         Dispose(false);
     }
@@ -105,6 +92,7 @@ public class TcpClientSession3 : IDisposable
                         if (mSocket != null)
                         {
                             mSocket.Close();
+                            mSocket = null;
                         }
                     }
                     catch (Exception ex)
@@ -124,7 +112,7 @@ public class TcpClientSession3 : IDisposable
     {
         try
         {
-            if (mDisposed || !mConnected) return;
+            if (mSocket == null || mDisposed || !mConnected) return;
 
             if (mSocket.Poll(0, SelectMode.SelectError))
             {
