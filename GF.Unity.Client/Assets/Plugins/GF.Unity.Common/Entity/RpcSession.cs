@@ -5,6 +5,21 @@ using ProtoBuf;
 
 namespace GF.Unity.Common
 {
+    public delegate void OnSocketReceive(byte[] data, int len);
+    public delegate void OnSocketConnected(object client, EventArgs args);
+    public delegate void OnSocketClosed(object client, EventArgs args);
+    public delegate void OnSocketError(object rec, SocketErrorEventArgs args);
+
+    public class SocketErrorEventArgs : EventArgs
+    {
+        public Exception Exception { get; private set; }
+
+        public SocketErrorEventArgs(Exception exception)
+        {
+            Exception = exception;
+        }
+    }
+
     public abstract class RpcSlotBase
     {
         //---------------------------------------------------------------------
@@ -192,6 +207,11 @@ namespace GF.Unity.Common
         //---------------------------------------------------------------------
         // key=method_id
         Dictionary<ushort, RpcSlotBase> mMapRpcSlot = new Dictionary<ushort, RpcSlotBase>();
+
+        //---------------------------------------------------------------------
+        public OnSocketConnected OnSocketConnected { get; set; }
+        public OnSocketClosed OnSocketClosed { get; set; }
+        public OnSocketError OnSocketError { get; set; }
 
         //---------------------------------------------------------------------
         public abstract bool isConnect();
@@ -405,6 +425,6 @@ namespace GF.Unity.Common
     public abstract class RpcSessionFactory
     {
         //---------------------------------------------------------------------
-        public abstract RpcSession createRpcSession();
+        public abstract RpcSession createRpcSession(EntityMgr entity_mgr);
     }
 }

@@ -42,6 +42,8 @@ public sealed class EcEngine
 
         mEntityMgr = new EntityMgr(1, "Client");
 
+        mEntityMgr.setRpcSessionFactory(new RpcSessionFactorySuperSocket());
+
         mEntityMgr.regComponent<ClientAutoPatcher<DefAutoPatcher>>();
         mEntityMgr.regComponent<ClientNode<DefNode>>();
         mEntityMgr.regComponent<ClientSuperSocket<DefSuperSocket>>();

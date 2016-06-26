@@ -10,6 +10,7 @@ namespace GF.Unity.Common
         public Entity Entity { internal set; get; }
         public EntityMgr EntityMgr { internal set; get; }
         public EntityEventPublisher Publisher { get { return Entity.Publisher; } }
+        public RpcSession DefaultRpcSession { get { return EntityMgr.Instance.DefaultRpcSession; } }
         public bool EnableUpdate { set; get; }
         public bool EnableSave2Db { set; get; }
         public bool EnableNetSync { get; set; }

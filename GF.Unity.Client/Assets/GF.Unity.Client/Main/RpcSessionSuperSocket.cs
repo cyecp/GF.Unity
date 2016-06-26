@@ -3,19 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using GF.Unity.Common;
 
-public class EntityRpcSessionSuperSocketC : RpcSession
+public class RpcSessionSuperSocket : RpcSession
 {
     //---------------------------------------------------------------------
     EntityMgr mEntityMgr;
     SuperSocketClient mSocket;
 
     //---------------------------------------------------------------------
-    public OnSocketConnected OnSocketConnected { get; set; }
-    public OnSocketClosed OnSocketClosed { get; set; }
-    public OnSocketError OnSocketError { get; set; }
-
-    //---------------------------------------------------------------------
-    public EntityRpcSessionSuperSocketC(EntityMgr entity_mgr)
+    public RpcSessionSuperSocket(EntityMgr entity_mgr)
     {
         mEntityMgr = entity_mgr;
         mSocket = new SuperSocketClient();
@@ -51,7 +46,7 @@ public class EntityRpcSessionSuperSocketC : RpcSession
     {
         if (mSocket != null) mSocket.close();
     }
-    
+
     //---------------------------------------------------------------------
     public override void update(float elapsed_tm)
     {
@@ -104,5 +99,14 @@ public class EntityRpcSessionSuperSocketC : RpcSession
         {
             OnSocketClosed(this, args);
         }
+    }
+}
+
+public class RpcSessionFactorySuperSocket : RpcSessionFactory
+{
+    //---------------------------------------------------------------------
+    public override RpcSession createRpcSession(EntityMgr entity_mgr)
+    {
+        return new RpcSessionSuperSocket(entity_mgr);
     }
 }

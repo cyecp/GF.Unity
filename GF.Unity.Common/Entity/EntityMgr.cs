@@ -13,6 +13,7 @@ namespace GF.Unity.Common
         EntityEventPublisher mEntityEventPublisherDefault;
         EbFileStream mEntityFileStream = new EbFileStreamDefault();
         RpcSessionFactory mRpcSessionFactory = null;
+        RpcSession mDefaultRpcSession = null;
         Dictionary<string, RpcSession> mMapRpcSession = new Dictionary<string, RpcSession>();// key=RpcSession Name
         Dictionary<string, Dictionary<string, Entity>> mMapAllEntity4Search1
             = new Dictionary<string, Dictionary<string, Entity>>();// key1=entity_type, key2=entity_guid
@@ -30,6 +31,7 @@ namespace GF.Unity.Common
         public byte NodeType { get; private set; }
         public string NodeTypeAsString { get; private set; }
         public bool SignDestroy { internal set; get; }
+        public RpcSession DefaultRpcSession { get { return mDefaultRpcSession; } }
 
         //---------------------------------------------------------------------
         public EntityMgr(byte node_type, string nodetype_string)
@@ -124,6 +126,24 @@ namespace GF.Unity.Common
         public void setRpcSessionFactory(RpcSessionFactory factory)
         {
             mRpcSessionFactory = factory;
+
+            mDefaultRpcSession = mRpcSessionFactory.createRpcSession(this);
+            mMapRpcSession["Default"] = mDefaultRpcSession;
+        }
+
+        //---------------------------------------------------------------------
+        public RpcSession createRpcSession(string name, bool as_default = false)
+        {
+            if (mMapRpcSession.ContainsKey(name))
+            {
+                EbLog.Error("EntityMgr.createRpcSession() Failed! Exist Name=" + name);
+                return null;
+            }
+
+            var rpc_session = mRpcSessionFactory.createRpcSession(this);
+            if (as_default) mDefaultRpcSession = rpc_session;
+            mMapRpcSession[name] = rpc_session;
+            return rpc_session;
         }
 
         //---------------------------------------------------------------------

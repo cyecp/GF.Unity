@@ -7,12 +7,6 @@ using GF.Unity.Common;
 public class ClientSampleNetwork<TDef> : Component<TDef> where TDef : DefSampleNetwork, new()
 {
     //-------------------------------------------------------------------------
-    EntityRpcSessionSuperSocketC mSession;
-
-    //-------------------------------------------------------------------------
-    public RpcSession Session { get { return mSession; } }
-
-    //-------------------------------------------------------------------------
     public override void init()
     {
         EbLog.Note("ClientSampleNetwork.init()");
@@ -33,10 +27,6 @@ public class ClientSampleNetwork<TDef> : Component<TDef> where TDef : DefSampleN
     //-------------------------------------------------------------------------
     public override void update(float elapsed_tm)
     {
-        if (mSession != null)
-        {
-            mSession.update(elapsed_tm);
-        }
     }
 
     //-------------------------------------------------------------------------
@@ -47,17 +37,12 @@ public class ClientSampleNetwork<TDef> : Component<TDef> where TDef : DefSampleN
     //-------------------------------------------------------------------------
     public void connectBase(string base_ip, int base_port)
     {
-        if (mSession != null)
-        {
-            mSession.close();
-            mSession = null;
-        }
+        DefaultRpcSession.close();
 
-        mSession = new EntityRpcSessionSuperSocketC(EntityMgr);
-        mSession.OnSocketConnected = _onSocketConnected;
-        mSession.OnSocketClosed = _onSocketClosed;
-        mSession.OnSocketError = _onSocketError;
-        mSession.connect(base_ip, base_port);
+        DefaultRpcSession.OnSocketConnected = _onSocketConnected;
+        DefaultRpcSession.OnSocketClosed = _onSocketClosed;
+        DefaultRpcSession.OnSocketError = _onSocketError;
+        DefaultRpcSession.connect(base_ip, base_port);
     }
 
     //-------------------------------------------------------------------------
@@ -65,13 +50,9 @@ public class ClientSampleNetwork<TDef> : Component<TDef> where TDef : DefSampleN
     {
         EbLog.Note("ClientSampleNetwork.disconnect()");
 
-        if (mSession != null)
-        {
-            mSession.close();
-            mSession = null;
-        }
+        DefaultRpcSession.close();
     }
-    
+
     //-------------------------------------------------------------------------
     void _onSocketConnected(object client, EventArgs args)
     {
@@ -79,7 +60,7 @@ public class ClientSampleNetwork<TDef> : Component<TDef> where TDef : DefSampleN
 
         //rpc(MethodType.c2sAccountRequest, account_request);
 
-        //rpc(999);
+        DefaultRpcSession.rpc(999);
 
         //byte[] data = Encoding.UTF8.GetBytes("Hello world");
         //if (session != null) session.send(method_id, data);
@@ -90,7 +71,6 @@ public class ClientSampleNetwork<TDef> : Component<TDef> where TDef : DefSampleN
     {
         EbLog.Note("ClientSampleNetwork._onSocketClosed()");
 
-        _onSocketClose();
     }
 
     //-------------------------------------------------------------------------
@@ -98,12 +78,5 @@ public class ClientSampleNetwork<TDef> : Component<TDef> where TDef : DefSampleN
     {
         EbLog.Note("ClientSampleNetwork._onSocketError()");
 
-        _onSocketClose();
-    }
-
-    //-------------------------------------------------------------------------
-    void _onSocketClose()
-    {
-        mSession = null;
     }
 }

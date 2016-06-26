@@ -5,21 +5,6 @@ using System.Net;
 using System.Net.Sockets;
 using GF.Unity.Common;
 
-public delegate void OnSocketReceive(byte[] data, int len);
-public delegate void OnSocketConnected(object client, EventArgs args);
-public delegate void OnSocketClosed(object client, EventArgs args);
-public delegate void OnSocketError(object rec, SocketErrorEventArgs args);
-
-public class SocketErrorEventArgs : EventArgs
-{
-    public Exception Exception { get; private set; }
-
-    public SocketErrorEventArgs(Exception exception)
-    {
-        Exception = exception;
-    }
-}
-
 public class TcpClientSession : IDisposable
 {
     //-------------------------------------------------------------------------
