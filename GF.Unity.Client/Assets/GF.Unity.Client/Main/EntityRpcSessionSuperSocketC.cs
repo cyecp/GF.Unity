@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using GF.Unity.Common;
 
-public class EntityRpcSessionSuperSocketC : IRpcSession
+public class EntityRpcSessionSuperSocketC : RpcSession
 {
     //---------------------------------------------------------------------
     EntityMgr mEntityMgr;
@@ -13,8 +13,6 @@ public class EntityRpcSessionSuperSocketC : IRpcSession
     public OnSocketConnected OnSocketConnected { get; set; }
     public OnSocketClosed OnSocketClosed { get; set; }
     public OnSocketError OnSocketError { get; set; }
-    public bool IsConnected { get { return mSocket.IsConnected; } }
-    public string SessionId { get { return ""; } }
 
     //---------------------------------------------------------------------
     public EntityRpcSessionSuperSocketC(EntityMgr entity_mgr)
@@ -28,7 +26,19 @@ public class EntityRpcSessionSuperSocketC : IRpcSession
     }
 
     //---------------------------------------------------------------------
-    public void send(ushort method_id, byte[] data)
+    public override bool isConnect()
+    {
+        return mSocket.IsConnected;
+    }
+
+    //---------------------------------------------------------------------
+    public override void connect(string ip, int port)
+    {
+        if (mSocket != null) mSocket.connect(ip, port);
+    }
+
+    //---------------------------------------------------------------------
+    public override void send(ushort method_id, byte[] data)
     {
         if (mSocket != null)
         {
@@ -37,19 +47,13 @@ public class EntityRpcSessionSuperSocketC : IRpcSession
     }
 
     //---------------------------------------------------------------------
-    public void close()
+    public override void close()
     {
         if (mSocket != null) mSocket.close();
     }
-
+    
     //---------------------------------------------------------------------
-    public void connect(string ip, int port)
-    {
-        if (mSocket != null) mSocket.connect(ip, port);
-    }
-
-    //---------------------------------------------------------------------
-    public void update(float elapsed_tm)
+    public override void update(float elapsed_tm)
     {
         if (mSocket != null) mSocket.update(elapsed_tm);
     }
@@ -57,8 +61,6 @@ public class EntityRpcSessionSuperSocketC : IRpcSession
     //---------------------------------------------------------------------
     void _onSocketReceive(byte[] data, int len)
     {
-        mEntityMgr.LastRpcSession = this;
-
         ushort method_id = BitConverter.ToUInt16(data, 0);
 
         byte[] buf = null;
@@ -70,7 +72,7 @@ public class EntityRpcSessionSuperSocketC : IRpcSession
         }
         else buf = new byte[0];
 
-        mEntityMgr.onRecvRpcData(this, method_id, buf);
+        onRpcMethod(method_id, buf);
     }
 
     //---------------------------------------------------------------------

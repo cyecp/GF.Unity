@@ -10,7 +10,7 @@ public class ClientSampleNetwork<TDef> : Component<TDef> where TDef : DefSampleN
     EntityRpcSessionSuperSocketC mSession;
 
     //-------------------------------------------------------------------------
-    public IRpcSession Session { get { return mSession; } }
+    public RpcSession Session { get { return mSession; } }
 
     //-------------------------------------------------------------------------
     public override void init()
@@ -71,37 +71,7 @@ public class ClientSampleNetwork<TDef> : Component<TDef> where TDef : DefSampleN
             mSession = null;
         }
     }
-
-    //---------------------------------------------------------------------
-    public void rpc(short method_id)
-    {
-        rpcBySession(Session, (ushort)method_id);
-    }
-
-    //---------------------------------------------------------------------
-    public void rpc<T1>(short method_id, T1 obj1)
-    {
-        rpcBySession(Session, (ushort)method_id, obj1);
-    }
-
-    //---------------------------------------------------------------------
-    public void rpc<T1, T2>(short method_id, T1 obj1, T2 obj2)
-    {
-        rpcBySession(Session, (ushort)method_id, obj1, obj2);
-    }
-
-    //---------------------------------------------------------------------
-    public void rpc<T1, T2, T3>(short method_id, T1 obj1, T2 obj2, T3 obj3)
-    {
-        rpcBySession(Session, (ushort)method_id, obj1, obj2, obj3);
-    }
-
-    //---------------------------------------------------------------------
-    public void rpc<T1, T2, T3, T4>(short method_id, T1 obj1, T2 obj2, T3 obj3, T4 obj4)
-    {
-        rpcBySession(Session, (ushort)method_id, obj1, obj2, obj3, obj4);
-    }
-
+    
     //-------------------------------------------------------------------------
     void _onSocketConnected(object client, EventArgs args)
     {
@@ -109,7 +79,7 @@ public class ClientSampleNetwork<TDef> : Component<TDef> where TDef : DefSampleN
 
         //rpc(MethodType.c2sAccountRequest, account_request);
 
-        rpc(999);
+        //rpc(999);
 
         //byte[] data = Encoding.UTF8.GetBytes("Hello world");
         //if (session != null) session.send(method_id, data);

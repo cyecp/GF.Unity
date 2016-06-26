@@ -12,7 +12,8 @@ namespace GF.Unity.Common
         Dictionary<string, EntityDef> mMapEntityDef = new Dictionary<string, EntityDef>();// key=entity_type
         EntityEventPublisher mEntityEventPublisherDefault;
         EbFileStream mEntityFileStream = new EbFileStreamDefault();
-        RpcCallee mRpcCallee = new RpcCallee();
+        RpcSessionFactory mRpcSessionFactory = null;
+        Dictionary<string, RpcSession> mMapRpcSession = new Dictionary<string, RpcSession>();// key=RpcSession Name
         Dictionary<string, Dictionary<string, Entity>> mMapAllEntity4Search1
             = new Dictionary<string, Dictionary<string, Entity>>();// key1=entity_type, key2=entity_guid
         Dictionary<string, Entity> mMapAllEntity4Search3 = new Dictionary<string, Entity>();// key=entity_guid
@@ -26,11 +27,9 @@ namespace GF.Unity.Common
         static public EntityMgr Instance { get { return mEntityMgr; } }
         public OnEntityCreate OnEtCreate { get; set; }
         public OnEntityDestroy OnEtDestroy { get; set; }
-        public IRpcSession LastRpcSession { get; set; }
         public byte NodeType { get; private set; }
         public string NodeTypeAsString { get; private set; }
         public bool SignDestroy { internal set; get; }
-        internal RpcCallee _RpcCallee { get { return mRpcCallee; } }
 
         //---------------------------------------------------------------------
         public EntityMgr(byte node_type, string nodetype_string)
@@ -73,6 +72,12 @@ namespace GF.Unity.Common
         {
             if (SignDestroy) return;
 
+            // 每帧更新RpcSession
+            foreach (var i in mMapRpcSession)
+            {
+                i.Value.update(elapsed_tm);
+            }
+
             // 每帧新创建的Entity添加到mMapAllEntity4Update中
             while (mQueCreateEntity.Count > 0)
             {
@@ -113,6 +118,12 @@ namespace GF.Unity.Common
             entity_def.declareAllComponent(NodeType);
 
             mMapEntityDef[name] = entity_def;
+        }
+
+        //---------------------------------------------------------------------
+        public void setRpcSessionFactory(RpcSessionFactory factory)
+        {
+            mRpcSessionFactory = factory;
         }
 
         //---------------------------------------------------------------------
@@ -164,14 +175,6 @@ namespace GF.Unity.Common
         public void setFileStream(EbFileStream file_stream)
         {
             mEntityFileStream = file_stream;
-        }
-
-        //---------------------------------------------------------------------
-        public void onRecvRpcData(IRpcSession session, ushort method_id, byte[] data)
-        {
-            if (SignDestroy) return;
-
-            mRpcCallee._onRpcMethod(session, method_id, data);
         }
 
         //---------------------------------------------------------------------
@@ -337,6 +340,18 @@ namespace GF.Unity.Common
         public EntityEventPublisher getDefaultEventPublisher()
         {
             return mEntityEventPublisherDefault;
+        }
+
+        //---------------------------------------------------------------------
+        public RpcSession getDefaultRpcSession()
+        {
+            return null;
+        }
+
+        //---------------------------------------------------------------------
+        public RpcSession getRpcSession(string rpc_session_name)
+        {
+            return null;
         }
 
         //---------------------------------------------------------------------

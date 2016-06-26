@@ -10,7 +10,6 @@ namespace GF.Unity.Common
         Entity mParent;
         Dictionary<string, Dictionary<string, Entity>> mMapChild;// key1=entity_type, key2=entity_guid
         Dictionary<string, object> mMapCacheData;
-        RpcCallee mRpcCallee = new RpcCallee();
         Dictionary<string, IComponent> mMapComponent = new Dictionary<string, IComponent>();// 用于查找
         List<IComponent> mListComponent = new List<IComponent>();// 用于遍历，具有顺序性
         EntityEventPublisher mPublisher;
@@ -380,12 +379,6 @@ namespace GF.Unity.Common
             {
                 mMapChild.Clear();
                 mMapChild = null;
-            }
-
-            if (mRpcCallee != null)
-            {
-                mRpcCallee._clear();
-                mRpcCallee = null;
             }
 
             // 从父Entity中移除

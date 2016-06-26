@@ -187,14 +187,167 @@ namespace GF.Unity.Common
         }
     }
 
-    public sealed class RpcCallee
+    public abstract class RpcSession
     {
         //---------------------------------------------------------------------
         // key=method_id
         Dictionary<ushort, RpcSlotBase> mMapRpcSlot = new Dictionary<ushort, RpcSlotBase>();
 
         //---------------------------------------------------------------------
-        internal void _onRpcMethod(IRpcSession session, ushort method_id, byte[] data)
+        public abstract bool isConnect();
+
+        public abstract void connect(string ip, int port);
+
+        //---------------------------------------------------------------------
+        public abstract void send(ushort method_id, byte[] data);
+
+        //---------------------------------------------------------------------
+        public abstract void close();
+
+        //---------------------------------------------------------------------
+        public abstract void update(float elapsed_tm);
+
+        //---------------------------------------------------------------------
+        public void rpc(ushort method_id)
+        {
+            send(method_id, null);
+        }
+
+        //---------------------------------------------------------------------
+        public void rpc<T1>(ushort method_id, T1 obj1)
+        {
+            byte[] data = null;
+
+            using (MemoryStream s = new MemoryStream())
+            {
+                try
+                {
+                    ProtoBuf.Serializer.Serialize<T1>(s, obj1);
+                    data = s.ToArray();
+                }
+                catch (Exception ex)
+                {
+                    EbLog.Note("Component.rpcBySession<T1>() Serializer Error! MethodId="
+                        + method_id + " Exception:" + ex.ToString());
+                    EbLog.Note("Type1=" + typeof(T1).Name);
+                    return;
+                }
+            }
+
+            send(method_id, data);
+        }
+
+        //---------------------------------------------------------------------
+        public void rpc<T1, T2>(ushort method_id, T1 obj1, T2 obj2)
+        {
+            byte[] data = null;
+
+            using (MemoryStream s = new MemoryStream())
+            {
+                try
+                {
+                    ProtoBuf.Serializer.SerializeWithLengthPrefix<T1>(s, obj1, ProtoBuf.PrefixStyle.Fixed32);
+                    ProtoBuf.Serializer.SerializeWithLengthPrefix<T2>(s, obj2, ProtoBuf.PrefixStyle.Fixed32);
+                    data = s.ToArray();
+                }
+                catch (Exception ex)
+                {
+                    EbLog.Note("Component.rpcBySession<T1,T2>() Serializer Error! MethodId="
+                        + method_id + " Exception:" + ex.ToString());
+                    EbLog.Note("Type1=" + typeof(T1).Name + " Type2=" + typeof(T2).Name);
+                    return;
+                }
+            }
+
+            send(method_id, data);
+        }
+
+        //---------------------------------------------------------------------
+        public void rpc<T1, T2, T3>(ushort method_id, T1 obj1, T2 obj2, T3 obj3)
+        {
+            byte[] data = null;
+
+            using (MemoryStream s = new MemoryStream())
+            {
+                try
+                {
+                    ProtoBuf.Serializer.SerializeWithLengthPrefix<T1>(s, obj1, ProtoBuf.PrefixStyle.Fixed32);
+                    ProtoBuf.Serializer.SerializeWithLengthPrefix<T2>(s, obj2, ProtoBuf.PrefixStyle.Fixed32);
+                    ProtoBuf.Serializer.SerializeWithLengthPrefix<T3>(s, obj3, ProtoBuf.PrefixStyle.Fixed32);
+                    data = s.ToArray();
+                }
+                catch (Exception ex)
+                {
+                    EbLog.Error("Component.rpcBySession<T1,T2,T3>() Serializer Error! MethodId="
+                        + method_id + " Exception:" + ex.ToString());
+                    EbLog.Error("Type1=" + typeof(T1).Name + " Type2=" + typeof(T2).Name + " Type3=" + typeof(T3).Name);
+                    return;
+                }
+            }
+
+            send(method_id, data);
+        }
+
+        //---------------------------------------------------------------------
+        public void rpc<T1, T2, T3, T4>(ushort method_id, T1 obj1, T2 obj2, T3 obj3, T4 obj4)
+        {
+            byte[] data = null;
+
+            using (MemoryStream s = new MemoryStream())
+            {
+                try
+                {
+                    ProtoBuf.Serializer.SerializeWithLengthPrefix<T1>(s, obj1, ProtoBuf.PrefixStyle.Fixed32);
+                    ProtoBuf.Serializer.SerializeWithLengthPrefix<T2>(s, obj2, ProtoBuf.PrefixStyle.Fixed32);
+                    ProtoBuf.Serializer.SerializeWithLengthPrefix<T3>(s, obj3, ProtoBuf.PrefixStyle.Fixed32);
+                    ProtoBuf.Serializer.SerializeWithLengthPrefix<T4>(s, obj4, ProtoBuf.PrefixStyle.Fixed32);
+                    data = s.ToArray();
+                }
+                catch (Exception ex)
+                {
+                    EbLog.Error("Component.rpcBySession<T1,T2,T3,T4>() Serializer Error! MethodId="
+                        + method_id + " Exception:" + ex.ToString());
+                    EbLog.Error("Type1=" + typeof(T1).Name + " Type2=" + typeof(T2).Name
+                        + " Type3=" + typeof(T3).Name + " Type4=" + typeof(T4).Name);
+                    return;
+                }
+            }
+
+            send(method_id, data);
+        }
+
+        //---------------------------------------------------------------------
+        public void defRpcMethod(ushort method_id, Action action)
+        {
+            _defRpcMethod(method_id, action);
+        }
+
+        //---------------------------------------------------------------------
+        public void defRpcMethod<T1>(ushort method_id, Action<T1> action)
+        {
+            _defRpcMethod<T1>(method_id, action);
+        }
+
+        //---------------------------------------------------------------------
+        public void defRpcMethod<T1, T2>(ushort method_id, Action<T1, T2> action)
+        {
+            _defRpcMethod<T1, T2>(method_id, action);
+        }
+
+        //---------------------------------------------------------------------
+        public void defRpcMethod<T1, T2, T3>(ushort method_id, Action<T1, T2, T3> action)
+        {
+            _defRpcMethod<T1, T2, T3>(method_id, action);
+        }
+
+        //---------------------------------------------------------------------
+        public void defRpcMethod<T1, T2, T3, T4>(ushort method_id, Action<T1, T2, T3, T4> action)
+        {
+            _defRpcMethod<T1, T2, T3, T4>(method_id, action);
+        }
+
+        //---------------------------------------------------------------------
+        public void onRpcMethod(ushort method_id, byte[] data)
         {
             RpcSlotBase rpc_slot = null;
             mMapRpcSlot.TryGetValue(method_id, out rpc_slot);
@@ -208,44 +361,50 @@ namespace GF.Unity.Common
         }
 
         //---------------------------------------------------------------------
-        internal void _defRpcMethod(ushort method_id, Action a)
+        void _defRpcMethod(ushort method_id, Action a)
         {
             RpcSlot rpc_slot = new RpcSlot(a);
             mMapRpcSlot[method_id] = rpc_slot;
         }
 
         //---------------------------------------------------------------------
-        internal void _defRpcMethod<T1>(ushort method_id, Action<T1> a)
+        void _defRpcMethod<T1>(ushort method_id, Action<T1> a)
         {
             RpcSlot<T1> rpc_slot = new RpcSlot<T1>(a);
             mMapRpcSlot[method_id] = rpc_slot;
         }
 
         //---------------------------------------------------------------------
-        internal void _defRpcMethod<T1, T2>(ushort method_id, Action<T1, T2> a)
+        void _defRpcMethod<T1, T2>(ushort method_id, Action<T1, T2> a)
         {
             RpcSlot<T1, T2> rpc_slot = new RpcSlot<T1, T2>(a);
             mMapRpcSlot[method_id] = rpc_slot;
         }
 
         //---------------------------------------------------------------------
-        internal void _defRpcMethod<T1, T2, T3>(ushort method_id, Action<T1, T2, T3> a)
+        void _defRpcMethod<T1, T2, T3>(ushort method_id, Action<T1, T2, T3> a)
         {
             RpcSlot<T1, T2, T3> rpc_slot = new RpcSlot<T1, T2, T3>(a);
             mMapRpcSlot[method_id] = rpc_slot;
         }
 
         //---------------------------------------------------------------------
-        internal void _defRpcMethod<T1, T2, T3, T4>(ushort method_id, Action<T1, T2, T3, T4> a)
+        void _defRpcMethod<T1, T2, T3, T4>(ushort method_id, Action<T1, T2, T3, T4> a)
         {
             RpcSlot<T1, T2, T3, T4> rpc_slot = new RpcSlot<T1, T2, T3, T4>(a);
             mMapRpcSlot[method_id] = rpc_slot;
         }
 
         //---------------------------------------------------------------------
-        internal void _clear()
+        void _clear()
         {
             mMapRpcSlot.Clear();
         }
+    }
+
+    public abstract class RpcSessionFactory
+    {
+        //---------------------------------------------------------------------
+        public abstract RpcSession createRpcSession();
     }
 }
